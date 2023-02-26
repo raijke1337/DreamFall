@@ -1,0 +1,71 @@
+{
+    "name": "GameCtrl",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "d4fcae66-c5d2-4928-833a-7b7593b0fcad",
+            "actions": [
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "5fbd855e-0bf3-4216-a05d-707979fdf3dd",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "9d17db39-0caa-4770-a985-7967160ea7ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "1d813d5a-d4b6-423b-98cc-c9ffdf63a752",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5f344b3a-eb79-4137-b14b-0a593252cba4",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c0c8b9e-666a-499d-befb-b1be6d64bbd1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d67888c-a862-4ebe-b964-c9e60feade15",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

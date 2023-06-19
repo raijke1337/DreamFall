@@ -81,6 +81,13 @@ namespace Game.Managers
                 Debug.LogWarning($"{e.Message} missing from Musics when playing {ID}");
             }
         }
+        public void StopMusic()
+        {
+            if (currentMusic != null)
+            {
+                MusicsDict[currentMusic].Stop();
+            }
+        }
     }
 
 }

@@ -1,47 +1,38 @@
+
+using TMPro;
 using UnityEngine;
+
+
 namespace Game.Managers
 {
     public class CameraController : MonoBehaviour
     {
-        private Transform _player;
-        private Vector3 _desiredPos;
-        private Vector3 _currentPos;
+        private Vector3 _target;
+        private PlayerComponent _player;
+        [SerializeField] private float SmoothDampTime = 1f;
+        [SerializeField] private float zOffset;
+        public float CurrentOffsetZ => _target.z - transform.position.z;
 
-        public void SetPlayer(Transform t)
+        private Vector3 _velo = Vector3.zero;
+
+        public void SetPlayer(PlayerComponent t)
         {
             _player = t;
-            transform.LookAt(t, Vector3.forward);
-            transform.position += new Vector3(0, yOffset, 0);
+            
+            transform.position += new Vector3(0, 0, -zOffset);
+            transform.LookAt(t.transform, Vector3.forward);
         }
-
-
-        public float yOffset;
-        [Tooltip("Max range of cam to player")] public float yOffsetMax;
-        public float lerpSpeed;
-
-        private float lerping;
 
         private void Update()
         {
-            if (_player != null)
-            {
-                _currentPos = transform.position;
-                _desiredPos = new Vector3(_player.position.x, _player.position.y + yOffset, _player.position.z);
-                if (_desiredPos != _currentPos)
-                {
-                    Vector3 rangeCheck = _player.position - _currentPos;
-                    if (rangeCheck.y > yOffsetMax)
-                    {
-                        float fixRange = rangeCheck.y - yOffsetMax;
-                        transform.position = new Vector3(transform.position.x, transform.position.y + fixRange, transform.position.z);
-                        _currentPos = transform.position;
-                    }
+            if (_player == null) return;
 
-                    lerping = 0f;
-                    lerping += Time.deltaTime * lerpSpeed;
-                    transform.position = Vector3.Lerp(_currentPos, _desiredPos, lerping);
-                    transform.LookAt(_player, Vector3.forward);
-                }
+            //_target = _player.GetMouseTarget; // alt look kinda nauseating
+            _target = _player.transform.position;   
+            {
+                Vector3 tgt = new Vector3 ( _target.x, _target.y, _target.z-zOffset);
+                transform.position = Vector3.SmoothDamp
+                    (transform.position, tgt, ref _velo, SmoothDampTime);
             }
         }
     }

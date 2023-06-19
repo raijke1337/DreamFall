@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4780083634823512}
   - component: {fileID: 95242923974199034}
-  - component: {fileID: 5379945287360209555}
   - component: {fileID: -6952115926078067659}
   - component: {fileID: -7903737423715780451}
   - component: {fileID: -378069129094440617}
+  - component: {fileID: 3002537648440681960}
   m_Layer: 0
   m_Name: PlayerM
   m_TagString: Player
@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024860913751546}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -41,7 +41,7 @@ Transform:
   - {fileID: 4795595933706722}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!95 &95242923974199034
 Animator:
   serializedVersion: 3
@@ -61,22 +61,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!54 &5379945287360209555
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024860913751546}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!135 &-6952115926078067659
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -102,8 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8352a0953f2270444b5b9a08d1bc8df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colliderDelay: 0.1
-  speedRegainMult: 3
 --- !u!114 &-378069129094440617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f498d8187669f49928aed886bbbb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &3002537648440681960
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024860913751546}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1028711449618404
 GameObject:
   m_ObjectHideFlags: 0

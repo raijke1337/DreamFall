@@ -14,6 +14,7 @@ namespace Game.Managers
         public static GameManager Instance { get; private set; }
 
         private GameMode _gameMode;
+        public GameMode CurrentgameMode => _gameMode;
 
         [SerializeField] private PlayerComponent _playerFPrefab;
         [SerializeField] private PlayerComponent _playerMPrefab;
@@ -33,8 +34,11 @@ namespace Game.Managers
         private string _currLevelID;
         private string _currRulesID;
         private string _currMoveID;
+        // for mouse control
+        public float GetCameraDistance => _camCtrl.CurrentOffsetZ;
 
-        private bool UpdatingAim = false;
+        private bool _musicOn;
+        public bool MusicOn => _musicOn;    
 
         private void Update()
         {
@@ -51,9 +55,20 @@ namespace Game.Managers
             }
         }
 
+
         private async void OnEnable()
         {
             await Task.Delay(10);
+
+            if (PlayerPrefs.HasKey("music"))
+            {
+                _musicOn = bool.TryParse(PlayerPrefs.GetString("music"),out bool b);
+            }
+            else
+            {
+                MusicToggle(true);
+            }
+
             GrabConfigs();
             SceneManager.sceneLoaded += OnChangeScene;
         }
@@ -81,6 +96,16 @@ namespace Game.Managers
             }
         }
 
+        public void MusicToggle(bool isOn)
+        {
+            PlayerPrefs.SetString("music", isOn.ToString());
+            PlayerPrefs.Save();
+            if (!isOn)
+            {
+                AudioManager.Instance.StopMusic();
+            }
+        }
+
         public void StartLevel(string levelID, string rulesID, string moveID)
         {
             _currLevelID = levelID;
@@ -88,10 +113,19 @@ namespace Game.Managers
             _currMoveID = moveID;
 
             SceneManager.LoadScene(_levelDatas[_currLevelID].SceneIndex);
-            AudioManager.Instance.PlayMusic(_levelDatas[_currLevelID].MusicID);
+            if (_musicOn) AudioManager.Instance.PlayMusic(_levelDatas[_currLevelID].MusicID);
         }
         private void OnChangeScene(Scene sc, LoadSceneMode mode)
         {
+            if (PlayerPrefs.HasKey("music"))
+            {
+                _musicOn = bool.TryParse(PlayerPrefs.GetString("music"), out bool b);
+            }
+            else
+            {
+                MusicToggle(true);
+            }
+
             if (sc.buildIndex == 0) _gameMode = GameMode.Menu;
             else _gameMode = GameMode.Game;
             _ui = FindObjectOfType<UIController>(); 
@@ -108,7 +142,6 @@ namespace Game.Managers
                 _player.PickUpItemEvent -= ProcessItem;
                 _player.SectorClearEvent -= OnSectorClear;
                 _player.PauseClickEvent -= TogglePause;
-                _player.AimClickEvent -= OnAimClick;
                 AudioManager.Instance.PlayMusic("MainMenu");
                 transform.position = Vector3.zero;
             }
@@ -116,9 +149,10 @@ namespace Game.Managers
             {
                 transform.position = Vector3.zero;
                 _gameObserver = new GameObserver(_levelRules[_currRulesID]);
-                PlacePlayer(_moveDatas[_currMoveID]);
+
                 _camCtrl = GetComponent<CameraController>();
-                _camCtrl.SetPlayer(_player.transform);
+                PlacePlayer(_moveDatas[_currMoveID]);
+                _camCtrl.SetPlayer(_player);
                 _ui.UpdateScore(0, 0);
                 _tunnel = FindObjectOfType<TunnelController>();
                 _tunnel.Generate();
@@ -128,11 +162,10 @@ namespace Game.Managers
 
         private void PlacePlayer(PlayerMovementData data)
         {
-            _player = Instantiate(_playerFPrefab);
+            _player = Instantiate(_playerMPrefab);
             _player.transform.parent = null;
             _player.PickUpItemEvent += ProcessItem;
             _player.SectorClearEvent += OnSectorClear;
-            _player.AimClickEvent += OnAimClick;
 
 
             data.MaxSpeedClamp = data.StartSpeed;
@@ -149,23 +182,17 @@ namespace Game.Managers
         }
         private void UpdateUI()
         {
-            _ui.UpdateImpulses(_player.GetControlPercent);
             _ui.UpdateSpeed(_player.GetSpeedPercent);
-            if (UpdatingAim)
-            {
-                _ui.UpdateAim(UpdatingAim, _player.GetAimingDirection);
-            }
+#if UNITY_EDITOR
+            _ui.DebugVector(_player.GetDebugVector);
+#endif
+
         }
 
         private void OnLevelComplete()
         {
             _ui.ShowWinPanel(_gameObserver.GetCurrentScore);
             TogglePause(false);
-        }
-        private void OnAimClick(bool isAim)
-        {
-            //UpdatingAim = isAim; // TODO
-            //_ui.UpdateAim(isAim,Vector3.zero); // case - aim released - call once to hide element, get real vector in upd 
         }
 
         private void OnSectorClear (SectorComponent sect)

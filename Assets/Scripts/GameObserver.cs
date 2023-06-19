@@ -47,7 +47,7 @@ namespace Game.Managers
         // boost is calculated
         public int GetBoostStage()
         {
-            return Mathf.Clamp(Mathf.FloorToInt(_comboCounter / GetCurrentRules.ComboToSpeedUp),0,GetCurrentRules.MaxBoosts);
+            return Mathf.Clamp(Mathf.FloorToInt(_comboCounter / GetCurrentRules.ComboToSpeedUp),1,GetCurrentRules.MaxBoosts);
         }
     }
 }

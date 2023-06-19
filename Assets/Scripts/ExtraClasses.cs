@@ -23,12 +23,12 @@ namespace Game.Extras
         {
             StartSpeed = data.StartSpeed;
             SpeedStep = data.SpeedStep;
-            ImpulseMult = data.ImpulseMult;
-            BoostCounter = data.BoostCounter;
-            BoostRecharge = data.BoostRecharge;
+            ControlSpeed = data.ControlSpeed;
+            //BoostCounter = data.BoostCounter;
+            //BoostRecharge = data.BoostRecharge;
             MaxSpeedClamp = data.StartSpeed;
             MovementDataID = data.MoveDataID;
-            ColliderDelay = data.ColliderDelay;
+            ControlsDisabledOnCollisionTimer = data.ControlsDisabledOnCollisionTimer;
             speedRegainMult = data.speedRegainMult;
 
         }
@@ -36,10 +36,10 @@ namespace Game.Extras
         [Tooltip("Starting speed")] public float StartSpeed;
         [Tooltip("Speed increase per 1 boost")] public float SpeedStep;
         [Tooltip("Max speed of player"), HideInInspector] public float MaxSpeedClamp; // hidden because it is calculated by GM and set on instantiation
-        [Tooltip("Control impulse multiplier")] public float ImpulseMult;
-        [Tooltip("Control impulses count")] public int BoostCounter;
-        [Tooltip("Recharge of impluses")] public float BoostRecharge;
-        [Tooltip("Disable collider for f seconds to prevent glitches")] public float ColliderDelay;
+        [Tooltip("Control impulse multiplier")] public float ControlSpeed;
+        //[Tooltip("Control impulses count")] public int BoostCounter;
+        //[Tooltip("Recharge of impluses")] public float BoostRecharge;
+        [Tooltip("Disable controls for f seconds after a collision")] public float ControlsDisabledOnCollisionTimer;
         [Tooltip("Mult for regaining speed after collision with wall")] public float speedRegainMult;
     }
 

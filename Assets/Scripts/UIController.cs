@@ -14,7 +14,15 @@ namespace Game.Managers
         [SerializeField,Tooltip("Score field")] private TextMeshProUGUI _winText;
 
         [SerializeField] private Image _speedBar;
-        [SerializeField] private Image _impulseBar;
+
+#if UNITY_EDITOR
+        [SerializeField] private TextMeshProUGUI _vector;
+        public void DebugVector(Vector3 v)
+        {
+            _vector.text = v.ToString();
+        }
+#endif
+
 
         [SerializeField] private RectTransform _aim;
 
@@ -44,20 +52,7 @@ namespace Game.Managers
         {
             _speedBar.fillAmount = prog;
         }
-        public void UpdateImpulses (float prog)
-        {
-            _impulseBar.fillAmount = prog;
-        }
-        public void UpdateAim(bool isShow, Vector3 dir)
-        {
-            _aim.gameObject.SetActive(isShow);
-            if (isShow)
-            {
-                var v = Camera.main.WorldToScreenPoint(dir);
-                var scrPoint = new Vector2(v.x, v.y);
-                Debug.Log($"Desired aim is {scrPoint}");
-            }
-        }
+
 
         //run from GM!
         public void OnSwitchPauseState(bool isPause)
@@ -83,11 +78,25 @@ namespace Game.Managers
 
         [SerializeField] private RectTransform _levelSelect;
         [SerializeField] private RectTransform _modeSelect;
+        [SerializeField] private Toggle _musicToggle;
         [SerializeField] private float _windowsSwitchTime;
         private string lv;
         private string mode;
         private string move = "base";
 
+        private void Start()
+        {
+            if (GameManager.Instance.CurrentgameMode == Extras.GameMode.Menu)
+            {
+                _musicToggle.isOn = GameManager.Instance.MusicOn;
+            }
+        }
+
+        public void OnMusicToggleButtonUI()
+        {
+            ClickSound();
+            GameManager.Instance.MusicToggle(_musicToggle.isOn);
+        }
 
         public void OnLevelSelected(string ID)
         {

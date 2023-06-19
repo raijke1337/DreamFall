@@ -11,7 +11,7 @@ namespace Game
 
         [SerializeField] SpawnRange _spawnRange;
 
-        public float height; // hardcode but w/e
+        public float length; // hardcode but w/e
 
         // colliders are destroyed to ensure proper controls
         public void InitSector()
@@ -19,7 +19,7 @@ namespace Game
             var direction = Random.onUnitSphere;
             var d = direction * Random.Range(_spawnRange.MinRange, _spawnRange.MaxRange);
 
-            var spawn = new Vector3(d.x, transform.position.y, d.z);
+            var spawn = new Vector3(d.x, d.y, transform.position.z);
 
             var i = Instantiate(Items[Random.Range(0,Items.Length)], spawn, Random.rotation);
 

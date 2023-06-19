@@ -17,6 +17,11 @@ namespace Game
         public PlayerGameEvents<bool> AimClickEvent;
         private PlayerController _ctrl;
 
+#if UNITY_EDITOR
+        public Vector3 GetDebugVector { get => _ctrl.DebugVector3; }
+#endif
+
+        public Vector3 GetMouseTarget => _ctrl.GetMousePos;
         private void OnCollisionEnter(Collision collision)
         {
 
@@ -51,21 +56,17 @@ namespace Game
             if (_ctrl == null) _ctrl = GetComponent<PlayerController>(); 
             _ctrl.MovementData = data;
             _ctrl.PauseEvent += PauseWasClicked;
-            _ctrl.AimEvent += OnAimingToggle;
+            
         }
         public void OnUpdateInGame(float deltaTime)
         {
             _ctrl.RunUpdate(deltaTime);
         }
-        public Vector3 GetAimingDirection { get => _ctrl.GetAimDirection; }
-        public float GetControlPercent { get => _ctrl.GetControlPercent(); }
         public float GetSpeedPercent { get => _ctrl.GetSpeedPercent(); }
         private void PauseWasClicked() => PauseClickEvent?.Invoke(true);
-        private void OnAimingToggle(bool t) => AimClickEvent.Invoke(t);
         private void OnDisable()
         {
             _ctrl.PauseEvent -= PauseWasClicked;
-            _ctrl.AimEvent -= OnAimingToggle;
         }
         public void SetSpeed(int speed) => _ctrl.IncreaseSpeed(speed);
         public void SetPause(bool isPause) => _ctrl.IsPaused = isPause;

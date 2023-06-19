@@ -15,8 +15,6 @@ MonoBehaviour:
   MoveDataID: base
   StartSpeed: 4
   SpeedStep: 2
-  ImpulseMult: 3
-  BoostCounter: 3
-  BoostRecharge: 4
-  ColliderDelay: 0
+  ControlSpeed: 4
+  ControlsDisabledOnCollisionTimer: 1
   speedRegainMult: 2

@@ -9,9 +9,9 @@ using UnityEngine;
         public string MoveDataID;
         public float StartSpeed;
         public float SpeedStep;
-        public float ImpulseMult;
-        public int BoostCounter;
-        public float BoostRecharge;
-        public float ColliderDelay;
+        public float ControlSpeed;
+        //public int BoostCounter;
+        //public float BoostRecharge;
+        public float ControlsDisabledOnCollisionTimer;
         public float speedRegainMult;
 }
